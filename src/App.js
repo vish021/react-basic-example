@@ -37,16 +37,8 @@ class App extends Component {
   }
 
   render() {
-    const style = {
-      backgroundColor: 'green',
-      color: 'white',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer'
-    };
-
     let persons = null;
+    let buttonClass = '';
 
     if(this.state.showPersons) {
       persons = (
@@ -61,8 +53,7 @@ class App extends Component {
           })}
         </div>
       );
-  
-      style.backgroundColor = 'red';
+      buttonClass = classes.Red;
     }
 
     let assignClasses = [];
@@ -77,8 +68,8 @@ class App extends Component {
         <div className={classes.App}>
           <h1>hi, I'm React app</h1>
           <p className={assignClasses.join(' ')}>This Works!</p>
-          <button 
-          style={style}
+          <button
+          className={buttonClass} 
           onClick={this.togglePersonsHandler}>Toggle Persons</button>
           {persons}
         </div>
