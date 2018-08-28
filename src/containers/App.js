@@ -1,16 +1,44 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import classes from './App.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
+import WithClass from '../hoc/WithClass';
 
-class App extends Component {
-  state = {
-    persons: [
-      {id: '3232', name: 'Max', age: 29},
-      {id: 'ggggg', name: 'Manu', age:23},
-      {id: 'dsadsa', name: 'Stephanie', age: 34}
-    ],
-    showPersons: false
+class App extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      persons: [
+        {id: '3232', name: 'Max', age: 29},
+        {id: 'ggggg', name: 'Manu', age:23},
+        {id: 'dsadsa', name: 'Stephanie', age: 34}
+      ],
+      showPersons: false
+    };
+
+    console.log('[App.js inside constructor]', props);
+  }
+
+  componentWillMount() {
+    console.log(' App.js Inside componentWillMount()');
+  }
+
+  componentDidMount() {
+    console.log('App.js inside componentDidMount()');
+  }
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //     console.log('[App.js: inside shouldComponentUpdate()]', nextProps, nextState);
+  //     return nextState.persons !== this.state.persons ||
+  //            nextState.showPersons !== this.state.showPersons;
+  // }
+
+  componentWillUpdate(nextProps) {
+      console.log('[App.js: inside componentWillUpdate()]', nextProps); 
+  }
+
+  componentDidUpdate() {  
+    console.log('[App.js: inside componentDidUpdate()]'); 
   }
 
   deletePersonHandler = (personIndex) => {
@@ -38,6 +66,7 @@ class App extends Component {
   }
 
   render() {
+    console.log('App.js Inside render()');
     let persons = null;
 
     if(this.state.showPersons) {
@@ -48,7 +77,8 @@ class App extends Component {
     }
 
     return (
-        <div className={classes.App}>
+        <WithClass classes={classes.App}>
+        <button onClick={() => {this.setState({showPersons: true})}}>Show Persons</button>
           <Cockpit
           appTitle={this.props.title}
           showPersons={this.state.showPersons}
@@ -56,7 +86,7 @@ class App extends Component {
           clicked={this.togglePersonsHandler}
           />
           {persons}
-        </div>
+        </WithClass>
     );
   }
 }
